@@ -2,98 +2,98 @@
 #include <string.h>
 
 int main() {
-    int OPmenu, OPmenuLog, Password, OPmenuADM;
-    char newName[50], Name[50];
-    char Pergunta[100], resposta[100];
+    int menu_principal, menu_usuario, menu_adm, senha;
+    char novo_nome[50], nome[50];
+    char pergunta[100], resposta[100];
 
     printf("\n------------------------------------------\n"
            "-------------  MENU PRINCIPAL  -----------\n"
            "------------------------------------------\n"
-           "---------------  1. USER -----------------\n"
-           "------------- 2. ADMINISTRATOR -----------\n"
-           "--------------   3 - EXIT  ---------------\n"
+           "---------------  1. USUARIO ---------------\n"
+           "------------- 2. ADMINISTRADOR ------------\n"
+           "--------------   3. SAIR  -----------------\n"
            "------------------------------------------\n");
 
-    scanf("%d", &OPmenu);
+    scanf("%d", &menu_principal);
 
-    switch (OPmenu) {
-        case 1: // Usuario
+    switch (menu_principal) {
+        case 1: // Usuário
             printf("\n------------------------------------------\n"
-                   "--------------- MENU - USER --------------\n"
+                   "------------- MENU - USUÁRIO -------------\n"
                    "------------------------------------------\n"
-                   "---------  1. LOGIN REGISTRATION ---------\n"
-                   "----------------  2. LOGIN ---------------\n"
-                   "---------  3. PASSWORD RECOVERY ----------\n"
+                   "-------  1. CADASTRO DE LOGIN  -----------\n"
+                   "-----------  2. FAZER LOGIN  -------------\n"
+                   "-----  3. RECUPERAÇÃO DE SENHA  ----------\n"
                    "------------------------------------------\n");
 
-            scanf("%d", &OPmenuLog);
+            scanf("%d", &menu_usuario);
 
-            switch (OPmenuLog) {
+            switch (menu_usuario) {
                 case 1:
-                    printf("\nName:\n");
-                    scanf("%s", newName);
-                    printf("Password:\n");
-                    scanf("%d", &Password);
-                    printf("Security question:\n");
-                    scanf("%s", Pergunta);
-                    printf("Security question answer:\n");
+                    printf("\nNome:\n");
+                    scanf("%s", novo_nome);
+                    printf("Senha:\n");
+                    scanf("%d", &senha);
+                    printf("Pergunta secreta:\n");
+                    scanf("%s", pergunta);
+                    printf("Resposta da pergunta secreta:\n");
                     scanf("%s", resposta);
                     break;
 
                 case 2:
-                    printf("\nName:\n");
-                    scanf("%s", Name);
-                    printf("Password:\n");
-                    scanf("%d", &Password);
+                    printf("\nNome:\n");
+                    scanf("%s", nome);
+                    printf("Senha:\n");
+                    scanf("%d", &senha);
                     break;
 
                 case 3:
-                    printf("\nName:\n");
-                    scanf("%s", Name);
-                    printf("Simulando recuperação de senha para %s...\n", Name);
+                    printf("\nNome:\n");
+                    scanf("%s", nome);
+                    printf("Simulando recuperacao de senha para %s...\n", nome);
                     break;
 
                 default:
-                    printf("ERROR : Enter a valid value for USER menu\n");
+                    printf("ERRO: Digite uma opcao valida no menu de USUARIO\n");
             }
             break;
 
-        case 2: // ADMIN
+        case 2: // Administrador
             printf("\n------------------------------------------\n"
-                   "---------------  MENU - ADM  -------------\n"
+                   "-------------  MENU - ADMIN  -------------\n"
                    "------------------------------------------\n"
-                   "---------   1 - ADM REGISTRATION  --------\n"
-                   "-------------  2 - ADM LOGIN -------------\n"
+                   "-----   1. CADASTRO DE ADMINISTRADOR  ----\n"
+                   "---------   2. LOGIN ADMINISTRADOR  ------\n"
                    "------------------------------------------\n");
 
-            scanf("%d", &OPmenuADM);
+            scanf("%d", &menu_adm);
 
-            switch (OPmenuADM) {
+            switch (menu_adm) {
                 case 1:
-                    printf("\nName:\n");
-                    scanf("%s", Name);
-                    printf("Password:\n");
-                    scanf("%d", &Password);
+                    printf("\nNome:\n");
+                    scanf("%s", nome);
+                    printf("Senha:\n");
+                    scanf("%d", &senha);
                     break;
 
                 case 2:
-                    printf("\nName:\n");
-                    scanf("%s", Name);
-                    printf("Password:\n");
-                    scanf("%d", &Password);
+                    printf("\nNome:\n");
+                    scanf("%s", nome);
+                    printf("Senha:\n");
+                    scanf("%d", &senha);
                     break;
 
                 default:
-                    printf("ERROR : Enter a valid value for ADMIN menu\n");
+                    printf("ERRO: Digite uma opcao valida no menu de ADMINISTRADOR\n");
             }
             break;
 
-        case 3: // EXIT
+        case 3: // Sair
             printf("Saindo...\n");
             break;
 
         default:
-            printf("ERROR : Enter a valid value for MAIN menu\n");
+            printf("ERRO: Digite uma opção valida no MENU PRINCIPAL\n");
     }
 
     return 0;
