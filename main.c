@@ -49,9 +49,16 @@ int main()
         switch (menu_usuario)
         {
         case 1:
-            // Funcao cadastro com as caracteristicas do cadastro.
-            // Parametros na funcao que vao ser usados depois para testar a veracidade
-            // dos elementos do meu login
+           /* Funcao cadastro.
+            Passagem de parametro por endereco nas funcoes, enderecos que serao atribuídos aos ponteiros. Dessa forma, quando os ponteiros
+            forem modificados, tambem sera modificado o valor das variaveis criadas aqui na main. Essas variaveis serao usadas depois no login
+            para comparar valores. Por exemplo: o vetor nome_cadastro foi modificado pela funcao cadastro_usuario e agora, aqui na main, ele 
+            vale "Matheus", por exemplo. La na funcao login_usuario, vou usar outro ponteiro para atribuir a ele o endereco do vetor nome_cadastro,
+            que foi atualizado pela funcao cadastro_usuario com o valor "Matheus". Assim, esse ponteiro agora tem acesso ao valor do vetor
+            nome_cadastro. Agora, quando eu tentar logar com um usuario, esse nome de usuario tem que ser igual a "Matheus", que foi o usuario 
+            cadastrado. Se nao for, o acesso ao sistema e negado.
+            */
+
             cadastro_usuario(nome_cadastro, pergunta, resposta, &senha);
             printf("Deseja fazer login? SIM [1] NAO [2]\n");
             scanf("%d", &quer_login);
