@@ -1,25 +1,27 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-//inicio das Funções. O pq de iniciar elas aq: “Ei, essas funções existem, eu vou usá-las aqui na main(), e depois eu explico como elas funcionam.”
+// Prototipos das Funcoes
 
 void cadastro_usuario(char P_nome_cadastro[], char P_pergunta[], char P_resposta[], int *P_senha);
-void login_usuario(char P_nome_login[], char P_nome_cadastro[], int *P_senha, int *P_tentativa_senha);
+void login_usuario(char P_nome_login[], char P_nome_cadastro[], int *P_senha);
+void recuperar_senha();
 
 int main()
 {
-    //Principal
+    // Variaveis do menu principal
     int menu_principal;
 
-    //Adm
+    // Variaveis do Administrador
     int menu_adm, senha_adm;
-    char nome_adm[100];
+    char nome_adm[50];
 
-    //Usuario
-    int menu_usuario, senha, tentativa_senha, quer_login;
+    // Variaveis do Usuario
+    int menu_usuario, senha, quer_login;
     char nome_cadastro[50], nome_login[50], pergunta[100], resposta[100];
 
-
+    // Opcoes do menu principal
     printf("\n------------------------------------------\n"
            "-------------  MENU PRINCIPAL  -----------\n"
            "------------------------------------------\n"
@@ -32,7 +34,8 @@ int main()
 
     switch (menu_principal)
     {
-    case 1: // Usuário
+    case 1: // Usuario
+        // Opcoes do menu do usuario
         printf("\n--------------------------------------------\n"
                "--------------- MENU USUARIO ---------------\n"
                "--------------------------------------------\n"
@@ -46,25 +49,31 @@ int main()
         switch (menu_usuario)
         {
         case 1:
+            // Funcao cadastro com as caracteristicas do cadastro.
+            // Parametros na funcao que vao ser usados depois para testar a veracidade
+            // dos elementos do meu login
             cadastro_usuario(nome_cadastro, pergunta, resposta, &senha);
-                printf("Se deseja fazer login, digite [1]. Se nao, digite qualquer outra coisa. \n");
-                scanf("%d", &quer_login);
-                    switch (quer_login)
-                    {
-                    case 1:
-                        login_usuario(nome_login, nome_cadastro, &senha, &tentativa_senha);
-                        break;
-                    default:
-                        printf("Encerrando programa!!!");
-                        break;
-                    }
+            printf("Deseja fazer login? SIM [1] NAO [2]\n");
+            scanf("%d", &quer_login);
+            switch (quer_login)
+            {
+            case 1:
+                login_usuario(nome_login, nome_cadastro, &senha); // Se o usuario quiser login depois de cadastro, chama a funcao de login
                 break;
+            default:
+                printf("Usuario cadastrado.\n");
+                break;
+            }
+            break;
         case 2:
-            login_usuario(nome_login, nome_cadastro, &senha, &tentativa_senha);
+            // Nao funciona por enquanto porque os valores das variaveis se perdem e assim o
+            // vetor do usuario e a variavel da senha sempre tem um valor diferente.
+            login_usuario(nome_login, nome_cadastro, &senha);
             break;
         case 3:
             printf("\nNome:\n");
             scanf("%s", nome_cadastro);
+            recuperar_senha();
             printf("Simulando recuperacao de senha para %s...\n", nome_cadastro);
             break;
 
@@ -89,14 +98,14 @@ int main()
             printf("\nNome:\n");
             scanf("%s", nome_adm);
             printf("Senha:\n");
-            scanf("%d", &senha);
+            scanf("%d", &senha_adm);
             break;
 
         case 2:
             printf("\nNome:\n");
             scanf("%s", nome_adm);
             printf("Senha:\n");
-            scanf("%d", &senha);
+            scanf("%d", &senha_adm);
             break;
 
         default:
@@ -115,39 +124,88 @@ int main()
     return 0;
 }
 
-// Corpo das funções 
+// Funcao cadastro_usuario com os ponteiros
+// atribuindo os enderecos das variaveis da main e os modificando
 void cadastro_usuario(char P_nome_cadastro[], char P_pergunta[], char P_resposta[], int *P_senha)
 {
-    printf("CASDASTRO\n");
+    printf("CADASTRO\n");
     printf("Nome:\n");
     scanf("%s", P_nome_cadastro);
-    printf("Senha:\n");
-    scanf("%d", &*P_senha);
+    printf("Senha numerica:\n");
+    scanf("%d", P_senha);
     printf("Pergunta secreta:\n");
     scanf("%s", P_pergunta);
     printf("Resposta da pergunta secreta:\n");
     scanf("%s", P_resposta);
 }
 
-void login_usuario(char P_nome_login[], char P_nome_cadastro[], int *P_senha, int *P_tentativa_senha)
+// Funcao login_usuario com os ponteiros
+// atribuindo os enderecos das variaveis da main e fazendo comparacoes e modificacoes
+void login_usuario(char P_nome_login[], char P_nome_cadastro[], int *P_senha)
 {
-    printf("LOGIN\n");
-    printf("Nome:\n");
-    scanf("%s", &*P_nome_login);
-    if (strcmp(P_nome_login, P_nome_cadastro) == 0)// Verifica se o usuario cadastrado é igual ao usuario q esta tentando o login
-    { 
-        printf("Senha:\n");
-        scanf("%d", &*P_tentativa_senha);
+    do // Repete ate o nome do cadastro ser igual ao nome do login
+    {
+        int deseja_repetir_nome;
+        printf("LOGIN\n");
+        printf("Nome:\n");
+        scanf("%s", P_nome_login);
 
-        if (*P_tentativa_senha == *P_senha)
+        if (strcmp(P_nome_login, P_nome_cadastro) == 0)
         {
-            printf("Acesso ao programa liberado");
-        }else {
-            printf("Senha Incorreta!");
-        }
-        
-    }
-    else
-        printf("Usuario Invalido!!!");
+            int tentativa_senha, aux_tentativa_senha = 0;
 
+            do // Repeticao ate a senha ser correta
+            {
+                int deseja_recuperar;
+                printf("Senha numerica:\n");
+                scanf("%d", &tentativa_senha);
+
+                if (tentativa_senha == *P_senha)
+                {
+                    printf("Acesso ao programa liberado.\n");
+                }
+                else
+                {
+                    printf("Senha incorreta, tente novamente!\n");
+                    aux_tentativa_senha++;
+
+                    // A cada 5 tentativas, pergunta ao usuario se quer recuperar senha
+                    if (aux_tentativa_senha % 5 == 0)
+                    {
+                        printf("Deseja recuperar a senha? SIM [1] CONTINUAR TENTANDO [2] SAIR [3]\n");
+                        scanf("%d", &deseja_recuperar);
+                        switch (deseja_recuperar)
+                        {
+                        case 1:
+                            printf("FUNCAO RECUPERAR...\n");
+                            recuperar_senha();
+                            exit(0);
+                        case 2:
+                            break;
+                        default:
+                            printf("Tentativa de login mal sucedida.\n");
+                            exit(0);
+                        }
+                    }
+                }
+
+            } while (tentativa_senha != *P_senha);
+        }
+        else
+        {
+            // Se o usuario cadastrado for diferente do login, oferece opcao de tentar de novo ou sair
+            printf("Usuario nao existe, deseja repetir o nome do usuario? SIM [1] SAIR [2]\n");
+            scanf("%d", &deseja_repetir_nome);
+            if (deseja_repetir_nome != 1)
+            {
+                printf("Tentativa de login mal sucedida.\n");
+                exit(0);
+            }
+        }
+    } while (strcmp(P_nome_login, P_nome_cadastro) != 0);
+}
+
+// Funcao de recuperacao de senha (futura)
+void recuperar_senha()
+{
 }
