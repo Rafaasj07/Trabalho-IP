@@ -12,10 +12,10 @@ int main()
     int menu_adm, senha_adm;
 
     // Variaveis do Usuario
-    int menu_usuario, senha, quer_login;
+    int menu_usuario, quer_login;
 
     // Variaveis Admin e Usuario
-    char nome_cadastro[50], nome_login[50], pergunta[100], resposta[100];
+    char nome_cadastro[50], nome_login[50], pergunta[100], resposta[100], senha[50];
 
     // Opcoes do menu principal
     printf("\n------------------------------------------\n"
@@ -33,8 +33,7 @@ int main()
     {
     case 1: // Usuario
         // Opcoes do menu do usuario
-        system("clear");
-        system("cls");
+        system("clear"); system("cls");
         printf("\n--------------------------------------------\n"
                "--------------- MENU USUARIO ---------------\n"
                "--------------------------------------------\n"
@@ -58,28 +57,37 @@ int main()
              nome_cadastro. Agora, quando eu tentar logar com um usuario, esse nome de usuario tem que ser igual a "Matheus", que foi o usuario
              cadastrado. Se nao for, o acesso ao sistema e negado.
              */
-
-            cadastro(nome_cadastro, pergunta, resposta, &senha);
-            printf("Deseja fazer login? SIM [1] NAO [2]\n");
-            scanf("%d", &quer_login);
-            switch (quer_login)
+            system("clear"); system("cls");
+            cadastro(nome_cadastro, pergunta, resposta, senha);
+            do
             {
-            case 1:
-                login(nome_login, nome_cadastro, &senha); // Se o usuario quiser login depois de cadastro, chama a funcao de login
-                break;
-            default:
-                printf("Usuario cadastrado.\n");
-                break;
-            }
+                printf("Deseja fazer login? SIM [1] NAO [2]\n");
+                scanf("%d", &quer_login);
+                switch (quer_login)
+                {
+                case 1:
+                    login(nome_login, nome_cadastro, senha); // Se o usuario quiser login depois de cadastro, chama a funcao de login
+                    break;
+                case 2:
+                    printf("Usuario cadastrado.\n");
+                    break;
+                default:
+                    printf("DIGITO INVALIDO!");
+                }
+            } while (quer_login != 1 && quer_login != 2);
+
             break;
         case 2:
             // Nao funciona por enquanto porque os valores das variaveis se perdem e assim o
             // vetor do usuario e a variavel da senha sempre tem um valor diferente.
-            login(nome_login, nome_cadastro, &senha);
+            system("clear"); system("cls");
+            login(nome_login, nome_cadastro, senha);
             break;
         case 3:
-            printf("\nNome:\n");
-            scanf("%s", nome_cadastro);
+            printf("Digite seu nome: ");
+            getchar();
+            fgets(nome_cadastro, 50, stdin);         
+            nome_cadastro[strcspn(nome_cadastro, "\n")] = '\0';
             recuperar_senha();
             printf("Simulando recuperacao de senha para %s...\n", nome_cadastro);
             break;
@@ -90,6 +98,7 @@ int main()
         break;
 
     case 2: // Administrador
+    system("clear"); system("cls");
         printf("\n------------------------------------------\n"
                "-------------  MENU - ADMIN  -------------\n"
                "------------------------------------------\n"
@@ -102,13 +111,13 @@ int main()
 
         switch (menu_adm)
         {
-            cadastro(nome_cadastro, pergunta, resposta, &senha);
+            cadastro(nome_cadastro, pergunta, resposta, senha);
             printf("Deseja fazer login? SIM [1] NAO [2]\n");
             scanf("%d", &quer_login);
             switch (quer_login)
             {
             case 1:
-                login(nome_login, nome_cadastro, &senha);
+                login(nome_login, nome_cadastro, senha);
                 functions_adm();
                 break;
             default:
@@ -119,12 +128,18 @@ int main()
         case 2:
             // Nao funciona por enquanto porque os valores das variaveis se perdem e assim o
             // vetor do usuario e a variavel da senha sempre tem um valor diferente.
-            login(nome_login, nome_cadastro, &senha);
+            login(nome_login, nome_cadastro, senha);
             functions_adm();
             break;
             printf("ERRO: Digite uma opcao valida no MENU PRINCIPAL\n");
         }
 
         return 0;
+
+    case 3: // Sair
+        printf("Saindo do programa...\n");
+    
+    default:
+        printf("Opcao invalida.\n");
     }
 }
