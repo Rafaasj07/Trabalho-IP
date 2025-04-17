@@ -33,7 +33,8 @@ int main()
     {
     case 1: // Usuario
         // Opcoes do menu do usuario
-        system("clear"); system("cls");
+        system("clear");
+        system("cls");
         printf("\n--------------------------------------------\n"
                "--------------- MENU USUARIO ---------------\n"
                "--------------------------------------------\n"
@@ -48,17 +49,23 @@ int main()
         switch (menu_usuario)
         {
         case 1:
-            /* Funcao cadastro.
-             Passagem de parametro por endereco nas funcoes, enderecos que serao atribuídos aos ponteiros. Dessa forma, quando os ponteiros
-             forem modificados, tambem sera modificado o valor das variaveis criadas aqui na main. Essas variaveis serao usadas depois no login
-             para comparar valores. Por exemplo: o vetor nome_cadastro foi modificado pela funcao cadastro_usuario e agora, aqui na main, ele
-             vale "Matheus", por exemplo. La na funcao login_usuario, usaremos outro ponteiro para atribuir a ele o endereco do vetor nome_cadastro,
-             que foi atualizado pela funcao cadastro_usuario com o valor "Matheus". Assim, esse ponteiro agora tem acesso ao valor do vetor
-             nome_cadastro. Agora, quando eu tentar logar com um usuario, esse nome de usuario tem que ser igual a "Matheus", que foi o usuario
-             cadastrado. Se nao for, o acesso ao sistema e negado.
-             */
-            system("clear"); system("cls");
-            cadastro(nome_cadastro, pergunta, resposta, senha);
+
+        #ifdef _WIN32
+            system("cls");
+        #else
+            system("clear");
+        #endif
+
+        cadastro(nome_cadastro, pergunta, resposta, senha);
+
+        #ifdef _WIN32
+            system("cls");
+        #else
+            system("clear");
+        #endif
+
+        printf("Usuario cadastrado.\n");
+
             do
             {
                 printf("Deseja fazer login? SIM [1] NAO [2]\n");
@@ -66,13 +73,19 @@ int main()
                 switch (quer_login)
                 {
                 case 1:
+                #ifdef _WIN32
+                    system("cls");
+                #else
+                    system("clear");
+                #endif
+
                     login(nome_login, nome_cadastro, senha); // Se o usuario quiser login depois de cadastro, chama a funcao de login
                     break;
                 case 2:
-                    printf("Usuario cadastrado.\n");
                     break;
                 default:
                     printf("DIGITO INVALIDO!");
+                    continue;
                 }
             } while (quer_login != 1 && quer_login != 2);
 
@@ -80,13 +93,18 @@ int main()
         case 2:
             // Nao funciona por enquanto porque os valores das variaveis se perdem e assim o
             // vetor do usuario e a variavel da senha sempre tem um valor diferente.
-            system("clear"); system("cls");
+            #ifdef _WIN32
+                system("cls");
+            #else
+                system("clear");
+            #endif
+
             login(nome_login, nome_cadastro, senha);
             break;
         case 3:
             printf("Digite seu nome: ");
             getchar();
-            fgets(nome_cadastro, 50, stdin);         
+            fgets(nome_cadastro, 50, stdin);
             nome_cadastro[strcspn(nome_cadastro, "\n")] = '\0';
             recuperar_senha();
             printf("Simulando recuperacao de senha para %s...\n", nome_cadastro);
@@ -98,7 +116,11 @@ int main()
         break;
 
     case 2: // Administrador
-    system("clear"); system("cls");
+        #ifdef _WIN32
+            system("cls");
+        #else
+            system("clear");
+        #endif
         printf("\n------------------------------------------\n"
                "-------------  MENU - ADMIN  -------------\n"
                "------------------------------------------\n"
@@ -138,7 +160,7 @@ int main()
 
     case 3: // Sair
         printf("Saindo do programa...\n");
-    
+
     default:
         printf("Opcao invalida.\n");
     }

@@ -25,6 +25,7 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[])
             {
                 int deseja_recuperar;
                 printf("Senha:\n");
+                getchar();
                 fgets(tentaiva_senha, 50, stdin);
                 tentaiva_senha[strcspn(tentaiva_senha, "\n")] = '\0';
 
@@ -40,20 +41,41 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[])
                     // A cada 5 tentativas, pergunta ao usuario se quer recuperar senha
                     if (aux_tentativa_senha % 5 == 0)
                     {
-                        printf("Deseja recuperar a senha? SIM [1] CONTINUAR TENTANDO [2] SAIR [3]\n");
-                        scanf("%d", &deseja_recuperar);
-                        switch (deseja_recuperar)
+                        #ifdef _WIN32
+                            system("cls");
+                        #else
+                            system("clear");
+                        #endif
+                        do
                         {
-                        case 1:
-                            printf("FUNCAO RECUPERAR...\n");
-                            recuperar_senha();
-                            exit(0);
-                        case 2:
-                            break;
-                        default:
-                            printf("Tentativa de login mal sucedida.\n");
-                            exit(0);
-                        }
+                            printf("Deseja recuperar a senha? SIM [1] CONTINUAR TENTANDO [2] SAIR [3]\n");
+                            scanf("%d", &deseja_recuperar);
+                            switch (deseja_recuperar)
+                            {
+                            case 1:
+                                printf("FUNCAO RECUPERAR...\n");
+                                recuperar_senha();
+                                exit(0);
+                            case 2:
+                                #ifdef _WIN32
+                                    system("cls");
+                                #else
+                                    system("clear");
+                                #endif
+
+                                break; // Fecha o laço
+                            case 3:
+                                printf("Tentativa de login mal sucedida.\n");
+                                exit(0);
+                            default:
+                                #ifdef _WIN32
+                                    system("cls");
+                                #else
+                                    system("clear");
+                                #endif
+                                continue; // Pula pro proximo laço
+                            }
+                        } while (deseja_recuperar != 1 && deseja_recuperar != 2 && deseja_recuperar != 3);
                     }
                 }
 
@@ -62,15 +84,30 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[])
 
         else
         {
+            #ifdef _WIN32
+                system("cls");
+            #else
+                system("clear");
+            #endif
             // Se o usuario cadastrado for diferente do login, oferece opcao de tentar de novo ou sair
             printf("Usuario nao existe, deseja repetir o nome do usuario? SIM [1] SAIR [2]\n");
             scanf("%d", &deseja_repetir_nome);
-            if (deseja_repetir_nome == 2)
+            switch (deseja_repetir_nome)
             {
+            case 1:
+            #ifdef _WIN32
+                system("cls");
+            #else
+                system("clear");
+            #endif
+                continue;
+            case 2:
                 printf("Tentativa de login mal sucedida.\n");
                 exit(0);
-            }else if (deseja_repetir_nome == 1)
-                continue; //Pula pro proximo ciclo do loop
+            default:
+                printf("Comando invalido.");
+                break;
+            }
         }
     } while (strcmp(P_nome_login, P_nome_cadastro) != 0);
 }

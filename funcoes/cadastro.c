@@ -23,4 +23,6 @@ void cadastro(char P_nome_cadastro[], char P_pergunta[], char P_resposta[], char
     printf("Resposta da pergunta secreta:\n");
     fgets(P_resposta, 100, stdin);         
     P_resposta[strcspn(P_resposta, "\n")] = '\0';
+
+    printf("Usuario cadastrado.\n");
 }
