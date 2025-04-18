@@ -28,13 +28,11 @@ int main()
            "\nDigite a opcao que deseja: ");
 
     scanf("%d", &menu_principal);
-
     switch (menu_principal)
     {
     case 1: // Usuario
         // Opcoes do menu do usuario
-        system("clear");
-        system("cls");
+        limpar();
         printf("\n--------------------------------------------\n"
                "--------------- MENU USUARIO ---------------\n"
                "--------------------------------------------\n"
@@ -49,22 +47,11 @@ int main()
         switch (menu_usuario)
         {
         case 1:
+            limpar();
+            cadastro(nome_cadastro, pergunta, resposta, senha);
+            limpar();
 
-        #ifdef _WIN32
-            system("cls");
-        #else
-            system("clear");
-        #endif
-
-        cadastro(nome_cadastro, pergunta, resposta, senha);
-
-        #ifdef _WIN32
-            system("cls");
-        #else
-            system("clear");
-        #endif
-
-        printf("Usuario cadastrado.\n");
+            printf("Usuario cadastrado.\n");
 
             do
             {
@@ -73,18 +60,14 @@ int main()
                 switch (quer_login)
                 {
                 case 1:
-                #ifdef _WIN32
-                    system("cls");
-                #else
-                    system("clear");
-                #endif
-
-                    login(nome_login, nome_cadastro, senha); // Se o usuario quiser login depois de cadastro, chama a funcao de login
+                    limpar();
+                    login(nome_login, nome_cadastro, senha, pergunta, resposta); // Se o usuario quiser login depois de cadastro, chama a funcao de login
                     break;
                 case 2:
                     break;
                 default:
-                    printf("DIGITO INVALIDO!");
+                    limpar();
+                    printf("DIGITO INVALIDO!\n");
                     continue;
                 }
             } while (quer_login != 1 && quer_login != 2);
@@ -93,34 +76,26 @@ int main()
         case 2:
             // Nao funciona por enquanto porque os valores das variaveis se perdem e assim o
             // vetor do usuario e a variavel da senha sempre tem um valor diferente.
-            #ifdef _WIN32
-                system("cls");
-            #else
-                system("clear");
-            #endif
-
-            login(nome_login, nome_cadastro, senha);
+            limpar();
+            login(nome_login, nome_cadastro, senha, pergunta, resposta);
             break;
         case 3:
             printf("Digite seu nome: ");
             getchar();
-            fgets(nome_cadastro, 50, stdin);
-            nome_cadastro[strcspn(nome_cadastro, "\n")] = '\0';
-            recuperar_senha();
+            fgets(nome_login, 50, stdin);
+            nome_login[strcspn(nome_login, "\n")] = '\0';
+            recuperar_senha(senha, pergunta, resposta);
             printf("Simulando recuperacao de senha para %s...\n", nome_cadastro);
             break;
 
         default:
             printf("ERRO: Digite uma opcao valida no menu de USUARIO\n");
+            break;
         }
         break;
 
     case 2: // Administrador
-        #ifdef _WIN32
-            system("cls");
-        #else
-            system("clear");
-        #endif
+        limpar();
         printf("\n------------------------------------------\n"
                "-------------  MENU - ADMIN  -------------\n"
                "------------------------------------------\n"
@@ -130,38 +105,47 @@ int main()
                "\nDigite a opcao que deseja: ");
 
         scanf("%d", &menu_adm);
+        limpar();
 
         switch (menu_adm)
         {
+        case 1:
             cadastro(nome_cadastro, pergunta, resposta, senha);
             printf("Deseja fazer login? SIM [1] NAO [2]\n");
             scanf("%d", &quer_login);
+
             switch (quer_login)
             {
             case 1:
-                login(nome_login, nome_cadastro, senha);
+                login(nome_login, nome_cadastro, senha, pergunta, resposta);
                 functions_adm();
                 break;
-            default:
+            case 2:
                 printf("Administrador cadastrado.\n");
+                break;
+            default:
+                printf("Opcao invalida.\n");
                 break;
             }
             break;
+
         case 2:
-            // Nao funciona por enquanto porque os valores das variaveis se perdem e assim o
-            // vetor do usuario e a variavel da senha sempre tem um valor diferente.
-            login(nome_login, nome_cadastro, senha);
+            login(nome_login, nome_cadastro, senha, pergunta, resposta);
             functions_adm();
             break;
-            printf("ERRO: Digite uma opcao valida no MENU PRINCIPAL\n");
-        }
 
-        return 0;
+        default:
+            printf("ERRO: Digite uma opcao valida no MENU ADMINISTRADOR\n");
+            break;
+        }
+        break;
 
     case 3: // Sair
         printf("Saindo do programa...\n");
-
+        break;
     default:
-        printf("Opcao invalida.\n");
+        printf("Digito invalido\n");
+        break;
     }
+    return 0;
 }

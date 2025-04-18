@@ -1,11 +1,11 @@
-#include <stdio.h>
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "prototipos.h"
 
 // Funcao login_usuario com os ponteiros
 // atribuindo os enderecos das variaveis da main e fazendo comparacoes e modificacoes
-void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[])
+void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[], char P_pergunta[], char P_resposta[])
 {
     do // Repete ate o nome do cadastro ser igual ao nome do login
     {
@@ -41,11 +41,7 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[])
                     // A cada 5 tentativas, pergunta ao usuario se quer recuperar senha
                     if (aux_tentativa_senha % 5 == 0)
                     {
-                        #ifdef _WIN32
-                            system("cls");
-                        #else
-                            system("clear");
-                        #endif
+                        limpar();
                         do
                         {
                             printf("Deseja recuperar a senha? SIM [1] CONTINUAR TENTANDO [2] SAIR [3]\n");
@@ -53,26 +49,17 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[])
                             switch (deseja_recuperar)
                             {
                             case 1:
-                                printf("FUNCAO RECUPERAR...\n");
-                                recuperar_senha();
+                                limpar();
+                                recuperar_senha(P_senha, P_pergunta, P_resposta);
                                 exit(0);
                             case 2:
-                                #ifdef _WIN32
-                                    system("cls");
-                                #else
-                                    system("clear");
-                                #endif
-
+                                limpar();
                                 break; // Fecha o laço
                             case 3:
                                 printf("Tentativa de login mal sucedida.\n");
                                 exit(0);
                             default:
-                                #ifdef _WIN32
-                                    system("cls");
-                                #else
-                                    system("clear");
-                                #endif
+                                limpar();
                                 continue; // Pula pro proximo laço
                             }
                         } while (deseja_recuperar != 1 && deseja_recuperar != 2 && deseja_recuperar != 3);
@@ -84,22 +71,14 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[])
 
         else
         {
-            #ifdef _WIN32
-                system("cls");
-            #else
-                system("clear");
-            #endif
+            limpar();
             // Se o usuario cadastrado for diferente do login, oferece opcao de tentar de novo ou sair
             printf("Usuario nao existe, deseja repetir o nome do usuario? SIM [1] SAIR [2]\n");
             scanf("%d", &deseja_repetir_nome);
             switch (deseja_repetir_nome)
             {
             case 1:
-            #ifdef _WIN32
-                system("cls");
-            #else
-                system("clear");
-            #endif
+                limpar();
                 continue;
             case 2:
                 printf("Tentativa de login mal sucedida.\n");
