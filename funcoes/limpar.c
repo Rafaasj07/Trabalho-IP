@@ -4,8 +4,8 @@
 void limpar(void)
 {
 #ifdef _WIN32
-    system("cls");
+    system("cls"); //Apaga no windows
 #else
-    system("clear");
+    system("clear");  //Apaga no linux
 #endif
 }

@@ -3,14 +3,15 @@
 #include <stdlib.h>
 #include "prototipos.h"
 
-// Funcao login_usuario com os ponteiros
-// atribuindo os enderecos das variaveis da main e fazendo comparacoes e modificacoes
-void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[], char P_pergunta[], char P_resposta[], int nome_ja_verificado)
+// Funcao login_usuario com o ponteiro da instancia dados.
+// Atribuindo como argumento da função, o endereco da instancia dados na main que contém: Nome, Senha, Pergunta e Resposta. Fazendo comparacoes e modificacoes nessa instancia.
+void login(Cadastro *dados, int nome_ja_verificado) 
 {
+    char tentaiva_nome[50];
     do // Repete ate o nome do cadastro ser igual ao nome do login
     {
         int deseja_repetir_nome;
-
+        
         limpar();
         bordas();
         ir_para(25, 2);
@@ -26,13 +27,13 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[], char P_p
         if (nome_ja_verificado == 1){ // Se o usuario existe eu não peço o nome do usuario, pois ele já existe. Caso ele não exista, eu peço o nome.
             ir_para(25, 10);          //1 para o usuario existir, 0 para não existir.
             printf("Nome: "); 
-            fgets(P_nome_login, 50, stdin);
-            P_nome_login[strcspn(P_nome_login, "\n")] = '\0';
+            fgets(tentaiva_nome, 50, stdin);
+            tentaiva_nome[strcspn(tentaiva_nome, "\n")] = '\0';
         }else if(nome_ja_verificado == 0){ // Se ele existe, eu somente do um print do usuario q está fazendo a recuperação da senha. 
             ir_para(25, 10);
-            printf("Nome: %s", P_nome_login);
+            printf("Nome: %s", tentaiva_nome);
         }
-        if (strcmp(P_nome_login, P_nome_cadastro) == 0)
+        if (strcmp(tentaiva_nome, dados->nome) == 0)
         {
             char tentaiva_senha[50];
             int aux_tentativa_senha = 0;
@@ -45,7 +46,7 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[], char P_p
                 fgets(tentaiva_senha, 50, stdin);
                 tentaiva_senha[strcspn(tentaiva_senha, "\n")] = '\0';
 
-                if (strcmp(tentaiva_senha, P_senha) == 0)
+                if (strcmp(tentaiva_senha, dados->senha) == 0)
                 {
                     ir_para(29, 15);
                     printf("\033[1;32mAcesso ao programa liberado!\033[0m"); 
@@ -69,7 +70,7 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[], char P_p
                             {
                             case 1:
                                 limpar();
-                                recuperar_senha(P_nome_login, P_nome_cadastro,P_senha, P_pergunta, P_resposta);
+                                recuperar_senha(dados);
                                 exit(0);
                             case 2:
                                 limpar();
@@ -85,7 +86,7 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[], char P_p
                     }
                 }
 
-            } while (strcmp(tentaiva_senha, P_senha) != 0);
+            } while (strcmp(tentaiva_senha, dados->senha) != 0);
         }
 
         else
@@ -115,5 +116,5 @@ void login(char P_nome_login[], char P_nome_cadastro[], char P_senha[], char P_p
                 break;
             }
         }
-    } while (strcmp(P_nome_login, P_nome_cadastro) != 0);
+    } while (strcmp(tentaiva_nome, dados->nome) != 0);
 }

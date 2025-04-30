@@ -19,9 +19,8 @@ int main()
 
     // Variaveis do Usuario
     int menu_usuario, quer_login;
-
-    // Variaveis Admin e Usuario
-    char nome_cadastro[50], nome_login[50], pergunta[100], resposta[100], senha[50];
+  
+    Cadastro dados; //Instancia da minha struct Cadastro. É aqui q tudo é salvo.
 
     // Opcoes do menu principal
     ir_para(25, 2);
@@ -74,8 +73,8 @@ int main()
         {
         case 1:
             limpar();
-            cadastro(nome_cadastro, pergunta, resposta, senha);
-
+            cadastro(&dados);
+            incluir(&dados);
             ir_para(33, 15);
             printf("\033[1;32mUsuario Cadastrado.\033[0m\n");
 
@@ -91,7 +90,7 @@ int main()
                 {
                 case 1:
                     limpar();
-                    login(nome_login, nome_cadastro, senha, pergunta, resposta, 1); // Se o usuario quiser login depois de cadastro, chama a funcao de login
+                    login(&dados, 1); // Se o usuario quiser login depois de cadastro, chama a funcao de login
                     break;
                 case 2:
                     break;
@@ -107,14 +106,16 @@ int main()
             // Nao funciona por enquanto porque os valores das variaveis se perdem e assim o
             // vetor do usuario e a variavel da senha sempre tem um valor diferente.
             limpar();
-            login(nome_login, nome_cadastro, senha, pergunta, resposta, 1);
+            login(&dados, 1);
             break;
         case 3:
+            /*SE LIGA: La no cadastro, usamos "->" para acessar as variaveis dentro do objeto com um ponteiro, pois a instancia do objeto não
+            é na função. Aq usamos ".", pois o objeto foi criado aq, então dados.nome, acessa o nome diretamente e não por um ponteiro.*/
             printf("Digite seu nome: ");
-            fgets(nome_login, 50, stdin);
-            nome_login[strcspn(nome_login, "\n")] = '\0';
-            recuperar_senha(nome_login, nome_cadastro, senha, pergunta, resposta);
-            printf("Simulando recuperacao de senha para %s...\n", nome_cadastro);
+            fgets(dados.nome, 50, stdin);               
+            dados.nome[strcspn(dados.nome, "\n")] = '\0';
+            recuperar_senha(&dados);                    
+            printf("Simulando recuperacao de senha para %s...\n", dados.nome);
             break;
 
         default:
@@ -140,7 +141,7 @@ int main()
         switch (menu_adm)
         {
         case 1:
-            cadastro(nome_cadastro, pergunta, resposta, senha);
+            cadastro(&dados);
             printf("Deseja fazer login? SIM [1] NAO [2]\n");
             scanf("%d", &quer_login);
             apaga_buffer();
@@ -148,7 +149,7 @@ int main()
             switch (quer_login)
             {
             case 1:
-                login(nome_login, nome_cadastro, senha, pergunta, resposta, 1);
+                login(&dados, 1);
                 functions_adm();
                 break;
             case 2:
@@ -161,7 +162,7 @@ int main()
             break;
 
         case 2:
-            login(nome_login, nome_cadastro, senha, pergunta, resposta, 1);
+            login(&dados, 1);
             functions_adm();
             break;
 
@@ -179,4 +180,8 @@ int main()
         break;
     }
     return 0;
+}
+
+void incluir(Cadastro *dados){
+    //Futura manipulação binaria.
 }
