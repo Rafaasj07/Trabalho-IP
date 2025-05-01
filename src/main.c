@@ -73,8 +73,10 @@ int main()
         {
         case 1:
             limpar();
-            cadastro(&dados);
-            incluir_dados(&dados);
+            int arquivo_status;
+            inicializar_arquivo();
+            cadastro(&dados); 
+            incluir_dados(&dados);// Preenche os dados
             ir_para(33, 15);
             printf("\033[1;32mUsuario Cadastrado.\033[0m\n");
 
@@ -107,14 +109,8 @@ int main()
             login(&dados);
             break;
         case 3:
-            /*SE LIGA: La no cadastro, usamos "->" para acessar as variaveis dentro do objeto com um ponteiro, pois a instancia do objeto não
-            é na função. Aq usamos ".", pois o objeto foi criado aq, então dados.nome, acessa o nome diretamente e não por um ponteiro.*/
-            //Não funciona ainda.
-            printf("Digite seu nome: ");
-            fgets(dados.nome, 50, stdin);               
-            dados.nome[strcspn(dados.nome, "\n")] = '\0';
+            limpar();
             recuperar_senha(&dados);                    
-            printf("Simulando recuperacao de senha para %s...\n", dados.nome);
             break;
 
         default:

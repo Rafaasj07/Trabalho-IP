@@ -16,12 +16,28 @@ void cadastro(Cadastro *dados)
     printf("%c             Cadastro            %c", 179, 179);
     ir_para(25, 5);
     printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 192, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 217);
-
+    
+    int nome_existe;
+    char tentativa_nome[50];
     ir_para(25, 9);
     printf("Nome: ");
-    fgets(dados->nome, 50, stdin);                 //dados->nome: Quando você usa o operador ->, vc está acessando o campo nome dentro da instância 
-    dados->nome[strcspn(dados->nome, "\n")] = '\0';//da struct apontada pelo ponteiro *dados. O ponteiro *dados aponta para a instancia criada na main, que tambem
-                                                   //chama dados. Não confunda, o *dados daqui é um PONTEIRO, ele aponta para o OBJETO dados.
+    fgets(tentativa_nome, 50, stdin);
+    tentativa_nome[strcspn(tentativa_nome, "\n")] = '\0';
+    nome_existe = verificar_nome(dados, tentativa_nome);
+    while (nome_existe == 1) // Enquanto o nome que eu digitar, for igual algum nome salvo. Vai repetir.
+    {
+        limpar();
+        ir_para(25, 8);
+        printf("\033[1;31mNome ja cadastrado! Tente outro:\033[0m");
+
+        ir_para(25, 9);
+        printf("Nome: ");
+        fgets(tentativa_nome, 50, stdin);
+        tentativa_nome[strcspn(tentativa_nome, "\n")] = '\0';
+        nome_existe = verificar_nome(dados, tentativa_nome);
+    }
+
+    strcpy(dados->nome, tentativa_nome);
 
     ir_para(25, 10);
     printf("Senha: ");
@@ -37,5 +53,4 @@ void cadastro(Cadastro *dados)
     printf("Resposta da pergunta secreta: ");
     fgets(dados->resposta, 100, stdin);
     dados->resposta[strcspn(dados->resposta, "\n")] = '\0';
-    
 }

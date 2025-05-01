@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "prototipos.h"
 
-int verificar_senha(Cadastro *dados, char tentativa_senha[])
+int verificar_senha(char tentativa_senha[])
 {
     FILE *arquivo; // O ponteiro q faz referencia aos dados do meu arquivo.
     Cadastro ler_dados; // Instância temporária para ler os dados do arquivo.
@@ -12,8 +13,8 @@ int verificar_senha(Cadastro *dados, char tentativa_senha[])
 
     if (arquivo == NULL) // Tratando possiveis erros.
     {
-        printf("Não foi possível abrir o arquivo.\n");
-        return 0;
+        printf("Nao foi possivel abrir ou criar o arquivo.\n");
+        exit(1);
     }
 
     // Lê cada registro (um por vez) e compara com os dados digitados

@@ -23,10 +23,11 @@ void limpar(void);
 void apaga_buffer(void);
 
 // Prototipos das funcoes binarias
+void inicializar_arquivo(void);
 void incluir_dados(Cadastro *dados);
 int verificar_nome(Cadastro *dados, char tentativa_nome[]);
-int verificar_senha(Cadastro *dados, char tentativa_senha[]);
-int alterar_senha(void);
+int verificar_senha(char tentativa_senha[]);
+int alterar_senha(Cadastro *dados);
 
 /*Explicação mais abstrata: Essa struct é como se fosse uma receita de bolo, o bolo mesmo é a instancia dados. A struct funciona como uma
  receita de bolo: ela define a forma e a estrutura dos dados que você quer armazenar, mas o bolo real, ou seja, os dados, são representados

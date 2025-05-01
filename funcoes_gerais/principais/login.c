@@ -8,10 +8,10 @@
 void login(Cadastro *dados) 
 {
     char tentaiva_nome[50];
-    int existe_nome;
+    int nome_existe;
     do // Repete ate o nome do cadastro ser igual ao nome do login
     {
-        int deseja_repetir_nome, existe_senha;
+        int deseja_repetir_nome, senha_existe;
         
         limpar();
         bordas();
@@ -31,9 +31,9 @@ void login(Cadastro *dados)
         fgets(tentaiva_nome, 50, stdin);
         tentaiva_nome[strcspn(tentaiva_nome, "\n")] = '\0';
 
-        existe_nome = verificar_nome(dados, tentaiva_nome); //Caso o nome exista no arquivo, retorna 1. Senão retorna 0.
+        nome_existe = verificar_nome(dados, tentaiva_nome); //Caso o nome exista no arquivo, retorna 1. Senão retorna 0.
 
-        if (existe_nome == 1)
+        if (nome_existe == 1)
         {
             char tentaiva_senha[50];
             int aux_tentativa_senha = 0;
@@ -46,9 +46,9 @@ void login(Cadastro *dados)
                 fgets(tentaiva_senha, 50, stdin);
                 tentaiva_senha[strcspn(tentaiva_senha, "\n")] = '\0';
 
-                existe_senha = verificar_senha(dados, tentaiva_senha); //Caso a senha exista no arquivo, retorna 1. Senão retorna 0.
+                senha_existe = verificar_senha(tentaiva_senha); //Caso a senha exista no arquivo, retorna 1. Senão retorna 0.
 
-                if (existe_senha == 1)
+                if (senha_existe == 1)
                 {
                     ir_para(29, 15);
                     printf("\033[1;32mAcesso ao programa liberado!\033[0m"); 
@@ -88,7 +88,7 @@ void login(Cadastro *dados)
                     }
                 }
 
-            } while (existe_senha == 0);
+            } while (senha_existe == 0);
         }
 
         else
@@ -118,5 +118,5 @@ void login(Cadastro *dados)
                 break;
             }
         }
-    } while (existe_nome == 0);
+    } while (nome_existe == 0);
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "prototipos.h"
 
 int verificar_nome(Cadastro *dados, char tentativa_nome[])
@@ -12,8 +13,8 @@ int verificar_nome(Cadastro *dados, char tentativa_nome[])
 
     if (arquivo == NULL) // Tratando possiveis erros.
     {
-        printf("Não foi possível abrir o arquivo.\n");
-        return 0;
+        printf("Nao foi possuvel abrir ou criar o arquivo.\n");
+        exit(1);
     }
 
     // Lê cada registro (um por vez) e compara com os dados digitados
@@ -26,6 +27,7 @@ int verificar_nome(Cadastro *dados, char tentativa_nome[])
         // Se encontrar nome iguail ao digitado
         if (strcmp(ler_dados.nome, tentativa_nome) == 0)
         {
+            *dados = ler_dados; //Preencho o objeto lá na main com os dados encontrados.
             fclose(arquivo);
             return 1; // Nome válido
         }
