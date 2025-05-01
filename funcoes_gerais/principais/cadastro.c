@@ -36,8 +36,8 @@ void cadastro(Cadastro *dados)
         tentativa_nome[strcspn(tentativa_nome, "\n")] = '\0';
         nome_existe = verificar_nome(dados, tentativa_nome);
     }
-
-    strcpy(dados->nome, tentativa_nome);
+    
+    strcpy(dados->nome, tentativa_nome);//Copia a tentiva valida para o nome
 
     ir_para(25, 10);
     printf("Senha: ");
