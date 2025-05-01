@@ -7,7 +7,7 @@
 void recuperar_senha(Cadastro *dados) //Lembre-se, dados é o ponteiro para a instancia la na main.
 {
     char tentativa_resposta[100];
-    int continuar_tent, deseja_login;
+    int continuar_tent;
     do
     {
         printf("%s\n", dados->pergunta);
@@ -18,26 +18,7 @@ void recuperar_senha(Cadastro *dados) //Lembre-se, dados é o ponteiro para a in
             printf("Mude sua senha:\n");
             fgets(dados->senha, 100, stdin);
             dados->senha[strcspn(dados->senha, "\n")] = '\0';
-            limpar();
-            do
-            {
-                printf("Senha altera com sucesso.\n");
-                printf("Deseja fazer login novamente?\nSIM [1] ou Nao [2]\n");
-                scanf("%d", &deseja_login);
-                switch (deseja_login)
-                {
-                case 1:
-                    login(dados, 0);
-                    break;
-                case 2:
-                    exit(0);
-                default:
-                    limpar();
-                    break;
-                }
-            } while (deseja_login != 1 && deseja_login != 2);
-
-            break;
+            printf("Senha altera com sucesso.\n");      
         }
         else
         {

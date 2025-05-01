@@ -37,4 +37,5 @@ void cadastro(Cadastro *dados)
     printf("Resposta da pergunta secreta: ");
     fgets(dados->resposta, 100, stdin);
     dados->resposta[strcspn(dados->resposta, "\n")] = '\0';
+    
 }

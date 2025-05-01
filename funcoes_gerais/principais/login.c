@@ -5,12 +5,13 @@
 
 // Funcao login_usuario com o ponteiro da instancia dados.
 // Atribuindo como argumento da função, o endereco da instancia dados na main que contém: Nome, Senha, Pergunta e Resposta. Fazendo comparacoes e modificacoes nessa instancia.
-void login(Cadastro *dados, int nome_ja_verificado) 
+void login(Cadastro *dados) 
 {
     char tentaiva_nome[50];
+    int existe_nome;
     do // Repete ate o nome do cadastro ser igual ao nome do login
     {
-        int deseja_repetir_nome;
+        int deseja_repetir_nome, existe_senha;
         
         limpar();
         bordas();
@@ -24,16 +25,15 @@ void login(Cadastro *dados, int nome_ja_verificado)
         printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 192, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 217);
         ir_para(24, 9);
 
-        if (nome_ja_verificado == 1){ // Se o usuario existe eu não peço o nome do usuario, pois ele já existe. Caso ele não exista, eu peço o nome.
-            ir_para(25, 10);          //1 para o usuario existir, 0 para não existir.
-            printf("Nome: "); 
-            fgets(tentaiva_nome, 50, stdin);
-            tentaiva_nome[strcspn(tentaiva_nome, "\n")] = '\0';
-        }else if(nome_ja_verificado == 0){ // Se ele existe, eu somente do um print do usuario q está fazendo a recuperação da senha. 
-            ir_para(25, 10);
-            printf("Nome: %s", tentaiva_nome);
-        }
-        if (strcmp(tentaiva_nome, dados->nome) == 0)
+        
+        ir_para(25, 10);          
+        printf("Nome: "); 
+        fgets(tentaiva_nome, 50, stdin);
+        tentaiva_nome[strcspn(tentaiva_nome, "\n")] = '\0';
+
+        existe_nome = verificar_nome(dados, tentaiva_nome); //Caso o nome exista no arquivo, retorna 1. Senão retorna 0.
+
+        if (existe_nome == 1)
         {
             char tentaiva_senha[50];
             int aux_tentativa_senha = 0;
@@ -46,7 +46,9 @@ void login(Cadastro *dados, int nome_ja_verificado)
                 fgets(tentaiva_senha, 50, stdin);
                 tentaiva_senha[strcspn(tentaiva_senha, "\n")] = '\0';
 
-                if (strcmp(tentaiva_senha, dados->senha) == 0)
+                existe_senha = verificar_senha(dados, tentaiva_senha); //Caso a senha exista no arquivo, retorna 1. Senão retorna 0.
+
+                if (existe_senha == 1)
                 {
                     ir_para(29, 15);
                     printf("\033[1;32mAcesso ao programa liberado!\033[0m"); 
@@ -86,7 +88,7 @@ void login(Cadastro *dados, int nome_ja_verificado)
                     }
                 }
 
-            } while (strcmp(tentaiva_senha, dados->senha) != 0);
+            } while (existe_senha == 0);
         }
 
         else
@@ -116,5 +118,5 @@ void login(Cadastro *dados, int nome_ja_verificado)
                 break;
             }
         }
-    } while (strcmp(tentaiva_nome, dados->nome) != 0);
+    } while (existe_nome == 0);
 }

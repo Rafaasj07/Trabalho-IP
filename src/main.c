@@ -74,7 +74,7 @@ int main()
         case 1:
             limpar();
             cadastro(&dados);
-            incluir(&dados);
+            incluir_dados(&dados);
             ir_para(33, 15);
             printf("\033[1;32mUsuario Cadastrado.\033[0m\n");
 
@@ -90,7 +90,7 @@ int main()
                 {
                 case 1:
                     limpar();
-                    login(&dados, 1); // Se o usuario quiser login depois de cadastro, chama a funcao de login
+                    login(&dados); // Se o usuario quiser login depois de cadastro, chama a funcao de login
                     break;
                 case 2:
                     break;
@@ -103,14 +103,13 @@ int main()
 
             break;
         case 2:
-            // Nao funciona por enquanto porque os valores das variaveis se perdem e assim o
-            // vetor do usuario e a variavel da senha sempre tem um valor diferente.
             limpar();
-            login(&dados, 1);
+            login(&dados);
             break;
         case 3:
             /*SE LIGA: La no cadastro, usamos "->" para acessar as variaveis dentro do objeto com um ponteiro, pois a instancia do objeto não
             é na função. Aq usamos ".", pois o objeto foi criado aq, então dados.nome, acessa o nome diretamente e não por um ponteiro.*/
+            //Não funciona ainda.
             printf("Digite seu nome: ");
             fgets(dados.nome, 50, stdin);               
             dados.nome[strcspn(dados.nome, "\n")] = '\0';
@@ -149,7 +148,7 @@ int main()
             switch (quer_login)
             {
             case 1:
-                login(&dados, 1);
+                login(&dados);
                 functions_adm();
                 break;
             case 2:
@@ -162,7 +161,7 @@ int main()
             break;
 
         case 2:
-            login(&dados, 1);
+            login(&dados);
             functions_adm();
             break;
 
@@ -180,8 +179,4 @@ int main()
         break;
     }
     return 0;
-}
-
-void incluir(Cadastro *dados){
-    //Futura manipulação binaria.
 }
