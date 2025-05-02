@@ -18,7 +18,7 @@ int alterar_senha(Cadastro *dados)
     if (arquivo == NULL) // Tratando possiveis erros.
     {
         printf("Nao foi possuvel abrir ou criar o arquivo.\n");
-        exit(0);
+        exit(1);
     }
 
     // Lê cada registro (um por vez) e compara com os dados digitados
@@ -33,7 +33,6 @@ int alterar_senha(Cadastro *dados)
         {
             fseek(arquivo, -sizeof(Cadastro), SEEK_CUR); // Volta o ponteiro para o início desse registro, dentro do arquivo onde encontrou o nome.
             fwrite(dados, sizeof(Cadastro), 1, arquivo); // Atualiza os novos dados (com a senha alterada), no antigo registro.
-            fclose(arquivo);
             break;
         }
     }

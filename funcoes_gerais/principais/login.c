@@ -46,12 +46,10 @@ void login(Cadastro *dados)
                 fgets(tentaiva_senha, 50, stdin);
                 tentaiva_senha[strcspn(tentaiva_senha, "\n")] = '\0';
 
-                senha_existe = verificar_senha(tentaiva_senha); //Caso a senha exista no arquivo, retorna 1. Senão retorna 0.
-
-                if (senha_existe == 1)
+                if (strcmp(dados->senha, tentaiva_senha) == 0)
                 {
                     ir_para(29, 15);
-                    printf("\033[1;32mAcesso ao programa liberado!\033[0m"); 
+                    printf("\033[1;32mAcesso ao programa liberado!\033[0m");
                 }
                 else
                 {
@@ -88,7 +86,7 @@ void login(Cadastro *dados)
                     }
                 }
 
-            } while (senha_existe == 0);
+            } while (strcmp(dados->senha, tentaiva_senha) != 0);
         }
 
         else
