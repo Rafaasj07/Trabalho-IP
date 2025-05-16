@@ -16,7 +16,7 @@ void cadastro(Cadastro *dados)
     printf("%c             Cadastro            %c", 179, 179);
     ir_para(25, 5);
     printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 192, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 217);
-    
+
     int nome_existe;
     char tentativa_nome[50];
     ir_para(25, 9);
@@ -36,8 +36,8 @@ void cadastro(Cadastro *dados)
         tentativa_nome[strcspn(tentativa_nome, "\n")] = '\0';
         nome_existe = verificar_nome(dados, tentativa_nome);
     }
-    
-    strcpy(dados->nome, tentativa_nome);//Copia a tentiva valida para o nome
+
+    strcpy(dados->nome, tentativa_nome); // Copia a tentiva valida para o nome
 
     ir_para(25, 10);
     printf("Senha: ");

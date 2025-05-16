@@ -1,1 +1,1 @@
-gcc src/main.c funcoes_gerais/principais/*.c funcoes_gerais/binarias/*.c funcoes_gerais/secundarias/*.c funcoes_gerais/front_terminal/*.c -I./include -o programa
+gcc src/main.c funcoes_gerais/principais/*.c funcoes_gerais/binarias/*.c funcoes_gerais/funcoes_adm/*.c funcoes_gerais/secundarias/*.c funcoes_gerais/front_terminal/*.c -I./include -o programa

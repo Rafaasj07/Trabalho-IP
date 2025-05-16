@@ -4,13 +4,23 @@
 
 void incluir_dados(Cadastro *dados)
 {
-    FILE *arquivo = fopen("dados_cadastrados.bin", "ab"); //Alem da função ab criar o arquivo, ela tambem abre para gravaçã.
-    if (arquivo == NULL)//Caso o arquivo não exista
+    const char *nome_arquivo = NULL;
+    if (dados->menu_principal == 1)
+    {
+        nome_arquivo = "usuarios_cadastrados.bin";
+    }
+    else if (dados->menu_principal == 2)
+    {
+        nome_arquivo = "adms_cadastrados.bin";
+    }
+
+    FILE *arquivo = fopen(nome_arquivo, "ab"); // Alem da função ab criar o arquivo, ela tambem abre para gravação.
+    if (arquivo == NULL)
     {
         printf("Erro ao abrir o arquivo para gravar.\n");
         exit(1);
     }
 
-    fwrite(dados, sizeof(Cadastro), 1, arquivo);//Grava os arquivos
+    fwrite(dados, sizeof(Cadastro), 1, arquivo); // Grava os arquivos
     fclose(arquivo);
 }
