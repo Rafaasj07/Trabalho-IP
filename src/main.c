@@ -310,6 +310,5 @@ int main()
         printf("\033[1;31mDIGITO INVALIDO!\033[0m");
         break;
     }
-    return 0;
-    
+    return 0; 
 }
