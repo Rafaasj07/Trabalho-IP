@@ -119,6 +119,7 @@ int main()
                     break;
                 case '3':
                     recuperar_senha(&dados);
+                    envia_email(&dados);
                     break;
                 case '4':
                     ir_para(34, 16);

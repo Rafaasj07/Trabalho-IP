@@ -31,8 +31,9 @@ all: $(TARGET)
 # Regra para gerar o executável a partir dos .o
 # $^ = todos os pré-requisitos (os .o)
 # $@ = nome do alvo (TARGET)
+# Importante: linkar com libcurl (-lcurl) para resolver funções da biblioteca curl usadas no código
 $(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -lcurl
 
 # Regra para compilar cada .c em .o individualmente
 # $< = nome do arquivo fonte (o .c)
