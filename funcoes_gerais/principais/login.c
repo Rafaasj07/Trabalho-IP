@@ -43,7 +43,8 @@ void login(Cadastro *dados)
                 printf("Senha: ");
                 fgets(tentaiva_senha, 50, stdin);
                 tentaiva_senha[strcspn(tentaiva_senha, "\n")] = '\0';
-
+                cifrar_cesar(tentaiva_senha, 6);
+                
                 if (strcmp(dados->senha, tentaiva_senha) == 0)
                 {
                     ir_para(25, 15);
@@ -75,6 +76,9 @@ void login(Cadastro *dados)
                             case '1':
                                 limpar();
                                 recuperar_senha(dados);
+                                char mensagem_email[200];
+                                snprintf(mensagem_email, sizeof(mensagem_email), "%s você alterou sua senha em nosso Sistema.", dados->nome);
+                                envia_email(dados, mensagem_email);
                                 exit(0);
                             case '2':
                                 ir_para(25, 15);

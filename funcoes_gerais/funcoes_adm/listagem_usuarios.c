@@ -30,6 +30,8 @@ void listagem_usuario(void)
         printf("Nome: %s\n", ler_dados.nome);
         printf("CPF: %s\n", ler_dados.cpf);
         printf("EMAIL: %s\n", ler_dados.email);
+        printf("Senha: %s\n", ler_dados.senha);
+        printf("Resposta: %s\n", ler_dados.resposta);
         printf("\n");
     }
     fclose(arquivo);

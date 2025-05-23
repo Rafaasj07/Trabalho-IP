@@ -75,6 +75,8 @@ void recuperar_senha(Cadastro *dados) // Lembre-se, dados é o ponteiro para a i
             printf("Resposta: ");
             fgets(tentativa_resposta, 100, stdin);
             tentativa_resposta[strcspn(tentativa_resposta, "\n")] = '\0';
+            cifrar_cesar(tentativa_resposta, 6);
+            
             if (strcmp(tentativa_resposta, dados->resposta) == 0)
             {
                 alterar_senha(dados);

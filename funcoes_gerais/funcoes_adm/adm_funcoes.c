@@ -46,6 +46,8 @@ void adm_funcoes(Cadastro *dados)
             excluir_usuario(dados);
             break;
         case '4': // adm quer sair
+            ir_para(29, 16);
+            limpar_linha();
             ir_para(32, 16);
             printf("\033[1;31mSaindo do programa...\033[0m");
             break;

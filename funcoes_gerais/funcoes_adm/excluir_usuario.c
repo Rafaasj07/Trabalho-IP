@@ -28,6 +28,7 @@ void excluir_usuario(Cadastro *dados)
 
     arquivo = fopen("usuarios_cadastrados.bin", "rb");
     copia_arquivo = fopen("usuarios_copia.bin", "ab");
+    
     if (arquivo == NULL || copia_arquivo == NULL)
     {
         printf("Nao foi possivel abrir o arquivo.\n");

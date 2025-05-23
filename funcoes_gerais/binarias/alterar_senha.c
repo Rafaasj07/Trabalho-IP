@@ -13,6 +13,7 @@ int alterar_senha(Cadastro *dados)
     printf("Digite a nova senha: ");
     fgets(nova_senha, 50, stdin);
     nova_senha[strcspn(nova_senha, "\n")] = '\0'; // Remove o \n
+    cifrar_cesar(nova_senha, 6);
 
     strcpy(dados->senha, nova_senha); // Atualiza a senha no struct
 
@@ -29,8 +30,8 @@ int alterar_senha(Cadastro *dados)
 
     if (arquivo == NULL)
     {
-        ir_para(27, 13);
-        printf("Nao foi possivel abrir ou criar o arquivo.");
+        ir_para(30, 16);
+        printf("\033[1;31mNao foi possivel abrir ou criar o arquivo.\033[0m");
         return 1;
     }
 

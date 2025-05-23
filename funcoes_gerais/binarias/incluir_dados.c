@@ -17,7 +17,8 @@ void incluir_dados(Cadastro *dados)
     FILE *arquivo = fopen(nome_arquivo, "ab"); // Alem da função ab criar o arquivo, ela tambem abre para gravação.
     if (arquivo == NULL)
     {
-        printf("Erro ao abrir o arquivo para gravar.\n");
+        ir_para(30, 16);
+        printf("\033[1;31mNao foi possivel abrir ou criar o arquivo.\033[0m");
         exit(1);
     }
 

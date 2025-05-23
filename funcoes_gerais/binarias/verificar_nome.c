@@ -23,7 +23,8 @@ int verificar_nome(Cadastro *dados, char tentativa_nome[])
 
     if (arquivo == NULL) // Tratando possiveis erros.
     {
-        printf("Nao foi possuvel abrir ou criar o arquivo.\n");
+        ir_para(30, 16);
+        printf("\033[1;31mNao foi possivel abrir ou criar o arquivo.\033[0m");
         exit(1);
     }
 

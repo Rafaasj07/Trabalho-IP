@@ -31,8 +31,8 @@ void limpar(void);
 void apaga_buffer(void);
 void limpar_linha(void);
 int cpf_valido(const char *cpf);
-void envia_email(Cadastro *dados);
-
+void envia_email(Cadastro *dados, char mensagem_email[]);
+void cifrar_cesar(char *codificada, int deslocamento);
 
 // Prototipos das funcoes binarias
 void inicializar_arquivo(char menu_principal);

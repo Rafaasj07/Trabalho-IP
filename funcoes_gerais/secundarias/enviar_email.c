@@ -55,7 +55,7 @@ size_t read_callback(void *ptr, size_t size, size_t nmemb, void *userdata)
 }
 
 // Função para enviar e-mail contendo nova senha para o usuário
-void envia_email(Cadastro *dados)
+void envia_email(Cadastro *dados, char mensagem_email[])
 {
     const char *remetente = "rafaasjgames1@gmail.com"; // Email do remetente (conta de envio)
     const char *codigo = "wddk lnfy qvoc rkjk";         // Codigo do remetente para autenticação SMTP
@@ -77,10 +77,10 @@ void envia_email(Cadastro *dados)
     snprintf(mensagem, sizeof(mensagem),
              "To: %s\r\n"                  // Destinatário
              "From: %s\r\n"                // Remetente
-             "Subject: Recuperação de senha\r\n"  // Assunto
+             "Subject: Sistema de Cadastro e Login\r\n"  // Assunto
              "\r\n"                       // Linha em branco separando cabeçalho do corpo
-             "Você alterou a senha no nosso sistema. Sua nova senha é: %s\r\n", // Corpo
-             dados->email, remetente, dados->senha);
+             "%s",// Corpo
+             dados->email, remetente, mensagem_email);
 
     // Inicializa struct com dados da mensagem para envio via callback
     struct upload_data payload = {
@@ -120,17 +120,13 @@ void envia_email(Cadastro *dados)
         // Verifica se ocorreu erro no envio
         if (res != CURLE_OK)
         {
-            ir_para(25, 16);
-            printf("\033[1;33mErro ao enviar nova senha para:\033[0m"); // Mensagem em amarelo
-            ir_para(25, 17);
-            printf("\033[1;33m%s\033[0m", dados->email);
+            ir_para(4, 22);
+            printf("\033[1;90mErro ao enviar email para: %s\033[0m", dados->email); // Mensagem de erro em amarelo
         }
         else
         {
-            ir_para(25, 16);
-            printf("\033[1;33mNova senha enviada com sucesso para:\033[0m"); // Mensagem de sucesso em amarelo
-            ir_para(25, 17);
-            printf("\033[1;33m%s\033[0m", dados->email);
+            ir_para(4, 22);
+            printf("\033[1;90mEmail enviado para: %s\033[0m", dados->email); // Mensagem de sucesso em amarelo
         }
 
         // Libera memória da lista de destinatários

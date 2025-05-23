@@ -26,8 +26,8 @@ void cadastro(Cadastro *dados)
     nome_existe = verificar_nome(dados, tentativa_nome);
     while (nome_existe == 1) // Enquanto o nome que eu digitar, for igual algum nome salvo. Vai repetir.
     {
-        ir_para(25, 8);
-        printf("\033[1;31mNome ja cadastrado! Tente outro:\033[0m");
+        ir_para(33, 14);
+        printf("\033[1;31mNome ja cadastrado!\033[0m");
 
         ir_para(25, 9);
         limpar_linha();
@@ -37,6 +37,8 @@ void cadastro(Cadastro *dados)
         tentativa_nome[strcspn(tentativa_nome, "\n")] = '\0';
         nome_existe = verificar_nome(dados, tentativa_nome);
     }
+    ir_para(20, 14);
+    limpar_linha();
 
     strcpy(dados->nome, tentativa_nome); // Copia a tentiva valida para o nome
 
@@ -44,6 +46,7 @@ void cadastro(Cadastro *dados)
     printf("Senha: ");
     fgets(dados->senha, 50, stdin);
     dados->senha[strcspn(dados->senha, "\n")] = '\0';
+    cifrar_cesar(dados->senha, 6);
 
     ir_para(25, 11);
     printf("Pergunta secreta: ");
@@ -54,6 +57,7 @@ void cadastro(Cadastro *dados)
     printf("Resposta da pergunta secreta: ");
     fgets(dados->resposta, 100, stdin);
     dados->resposta[strcspn(dados->resposta, "\n")] = '\0';
+    cifrar_cesar(dados->resposta, 6);
 
     if (dados->menu_principal == '1') // Só o usuario q vai ter isso a mais
     {
@@ -63,11 +67,25 @@ void cadastro(Cadastro *dados)
             limpar_linha();
             ir_para(25, 13);
             printf("CPF - 11 DIGITOS: ");
-            fgets(dados->cpf, 12, stdin);
-            dados->cpf[strcspn(dados->cpf, "\n")] = '\0';
+
+            // Lê até 12 caracteres: 11 dígitos + '\n' + '\0'
+            fgets(dados->cpf, 13, stdin);
+
+            // Verifica se '\n' foi lido - se não, limpa buffer
+            if (strchr(dados->cpf, '\n') == NULL)
+            {
+                apaga_buffer();
+            }
+            else
+            {
+                // Substitui o '\n' por '\0'
+                dados->cpf[strcspn(dados->cpf, "\n")] = '\0';
+            }
+
+            // Teve q ser feito isso, pq tava aceitando tudo acima de 11 digitos dps do primeiro erro. Provavelmente por conta de buffer.
         } while (cpf_valido(dados->cpf) == 0);
 
-        int tentativa_email = 0, eh_email; // ainda não tentou
+        int tentativa_email = 0, eh_email; 
 
         do
         {
@@ -93,13 +111,11 @@ void cadastro(Cadastro *dados)
                 }
             }
 
-            if ((eh_email == 1 || tamanho < 6) && tentativa_email > 0)
+            if ((eh_email == 1 || tamanho < 6) && ++tentativa_email > 0) //Adicionei a tentativa_email pq ele já tava entrando no do while mostrando email invalido
             {
                 ir_para(25, 16);
                 printf("\033[1;31mEmail Invalido!\033[0m");
             }
-
-            tentativa_email++;
 
         } while (eh_email == 1 || strlen(dados->email) < 6);
     }

@@ -9,8 +9,8 @@ int main()
     para o uso da funcao ir_para() e bordas()*/
     system("mode con:cols=80 lines=25");
 
-    Cadastro dados; // Instancia da minha struct Cadastro. É aqui q tudo é salvo.
-
+    Cadastro dados;           // Instancia da minha struct Cadastro. É aqui q tudo é salvo.
+    char mensagem_email[200]; // Mensagem a ser enviada no email.
     // Opcoes do menu principal
     do
     {
@@ -81,6 +81,8 @@ int main()
                     inicializar_arquivo(dados.menu_principal);
                     cadastro(&dados);
                     incluir_dados(&dados); // Preenche os dados
+                    snprintf(mensagem_email, sizeof(mensagem_email), "Parabéns, %s! Você fez cadastro em nosso Sistema.", dados.nome);
+                    envia_email(&dados, mensagem_email);
                     ir_para(25, 16);
                     limpar_linha();
                     ir_para(33, 16);
@@ -101,6 +103,8 @@ int main()
                         {
                         case '1':
                             login(&dados); // Se o usuario quiser login depois de cadastro, chama a funcao de login
+                            snprintf(mensagem_email, sizeof(mensagem_email), "Parabéns, %s! Você fez login em nosso Sistema.", dados.nome);
+                            envia_email(&dados, mensagem_email);
                             break;
                         case '2':
                             ir_para(32, 21);
@@ -116,10 +120,13 @@ int main()
                     break;
                 case '2':
                     login(&dados);
+                    snprintf(mensagem_email, sizeof(mensagem_email), "Parabéns, %s! Você fez login em nosso Sistema.", dados.nome);
+                    envia_email(&dados, mensagem_email);
                     break;
                 case '3':
                     recuperar_senha(&dados);
-                    envia_email(&dados);
+                    snprintf(mensagem_email, sizeof(mensagem_email), "%s você alterou sua senha em nosso Sistema.", dados.nome);
+                    envia_email(&dados, mensagem_email);
                     break;
                 case '4':
                     ir_para(34, 16);
