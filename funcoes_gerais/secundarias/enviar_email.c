@@ -1,6 +1,6 @@
 #include <stdio.h>      // Biblioteca padrão para entrada e saída
 #include <string.h>     // Biblioteca para manipulação de strings e memória
-#include <curl/curl.h>  // Biblioteca libcurl para transferências via URL, usada aqui para SMTP
+#include "C:/msys64/mingw64/include/curl/curl.h"  // Biblioteca libcurl para transferências via URL, usada aqui para SMTP
 #include "prototipos.h" // Arquivo local com protótipos de funções (suposição)
 
 /* 
@@ -57,8 +57,8 @@ size_t read_callback(void *ptr, size_t size, size_t nmemb, void *userdata)
 // Função para enviar e-mail contendo nova senha para o usuário
 void envia_email(Cadastro *dados, char mensagem_email[])
 {
-    const char *remetente = "rafaasjgames1@gmail.com"; // Email do remetente (conta de envio)
-    const char *codigo = "wddk lnfy qvoc rkjk";         // Codigo do remetente para autenticação SMTP
+    const char *remetente = "chavemestre.tech@gmail.com"; // Email do remetente (conta de envio)
+    const char *codigo = "cqxb tmuh zwgu zsxm";         // Codigo do remetente para autenticação SMTP
 
     // Verificação simples: se a senha não estiver definida, exibe erro e sai da função
     if (!codigo)
@@ -120,12 +120,12 @@ void envia_email(Cadastro *dados, char mensagem_email[])
         // Verifica se ocorreu erro no envio
         if (res != CURLE_OK)
         {
-            ir_para(4, 22);
+            ir_para(4, 23);
             printf("\033[1;90mErro ao enviar email para: %s\033[0m", dados->email); // Mensagem de erro em amarelo
         }
         else
         {
-            ir_para(4, 22);
+            ir_para(4, 23);
             printf("\033[1;90mEmail enviado para: %s\033[0m", dados->email); // Mensagem de sucesso em amarelo
         }
 

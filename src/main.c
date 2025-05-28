@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "prototipos.h"
+#include "prototipos.h" // Inclui o arquivo de cabeçalho com todas as declarações de funções e a struct.
 
-int main()
-{
-    /* Formata o terminal/console para que o mesmo tenha 80 colunas e 25 linhas (IBM),
-    para o uso da funcao ir_para() e bordas()*/
+// A função main é o ponto de entrada de qualquer programa em C.
+int main() {
+    // Formata o console do Windows para 80 colunas e 25 linhas.
+    // Isso garante que a interface gráfica do terminal (bordas, etc.) seja exibida corretamente.
     system("mode con:cols=80 lines=25");
 
-    Cadastro dados;           // Instancia da minha struct Cadastro. É aqui q tudo é salvo.
-    char mensagem_email[200]; // Mensagem a ser enviada no email.
-    // Opcoes do menu principal
-    do
-    {
+    Cadastro dados;           // Cria uma instância da struct 'Cadastro'. Esta variável armazenará os dados do usuário/adm durante a execução.
+    char mensagem_email[200]; // Buffer para armazenar a mensagem que será enviada por e-mail.
+
+    // Loop do Menu Principal.
+    // O 'do-while' garante que o menu seja exibido pelo menos uma vez.
+    do {
+        // Funções para desenhar a interface gráfica no terminal.
         bordas();
         ir_para(25, 2);
         printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 218, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 191);
@@ -23,28 +25,30 @@ int main()
         printf("%c          Menu Principal         %c", 179, 179);
         ir_para(25, 5);
         printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 192, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 217);
-
+        
+        // Exibe as opções do menu.
         ir_para(23, 9);
         printf("            1. MENU USUARIO            ");
         ir_para(23, 10);
         printf("         2. MENU ADMINISTRADOR         ");
         ir_para(23, 11);
         printf("                3. SAIR                ");
+
+        // Solicita a entrada do usuário.
         ir_para(26, 13);
         limpar_linha();
         ir_para(26, 13);
         printf("Digite a opcao que deseja: ");
+        scanf("%c", &dados.menu_principal); // Lê a opção e armazena na struct 'dados'.
+        apaga_buffer(); // Limpa o buffer do teclado.
 
-        scanf("%c", &dados.menu_principal);
-        apaga_buffer();
-
-        switch (dados.menu_principal)
-        {
-            char menu_usuario;
-        case '1': // Usuario
-            // Opcoes do menu do usuario
-            do
-            {
+        // Estrutura 'switch' para tratar a opção escolhida.
+        switch (dados.menu_principal) {
+            char menu_usuario; // Variável local para o submenu do usuário.
+        case '1': // Caso o usuário escolha "MENU USUARIO".
+            // Loop do Menu do Usuário.
+            do {
+                // Desenha a interface do menu do usuário.
                 bordas();
                 ir_para(25, 2);
                 printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 218, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 191);
@@ -54,6 +58,8 @@ int main()
                 printf("%c           Menu Usuario          %c", 179, 179);
                 ir_para(25, 5);
                 printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 192, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 217);
+                
+                // Exibe as opções do submenu.
                 ir_para(21, 9);
                 printf("       1. CADASTRO            ");
                 ir_para(21, 10);
@@ -64,6 +70,8 @@ int main()
                 printf("       3. RECUPERACAO DE SENHA     ");
                 ir_para(21, 12);
                 printf("       4. SAIR    ");
+                
+                // Solicita a entrada do usuário.
                 ir_para(26, 13);
                 limpar_linha();
                 ir_para(26, 14);
@@ -75,78 +83,79 @@ int main()
                 scanf("%c", &menu_usuario);
                 apaga_buffer();
 
-                switch (menu_usuario)
-                {
-                case '1':
-                    inicializar_arquivo(dados.menu_principal);
-                    cadastro(&dados);
-                    incluir_dados(&dados); // Preenche os dados
+                // Switch para tratar a opção do submenu do usuário.
+                switch (menu_usuario) {
+                case '1': // Cadastro de novo usuário.
+                    inicializar_arquivo(dados.menu_principal); // Garante que o arquivo 'usuarios_cadastrados.bin' exista.
+                    cadastro(&dados);                          // Chama a função de cadastro para preencher os dados.
+                    incluir_dados(&dados);                     // Salva os dados no arquivo binário.
                     snprintf(mensagem_email, sizeof(mensagem_email), "Parabéns, %s! Você fez cadastro em nosso Sistema.", dados.nome);
-                    envia_email(&dados, mensagem_email);
-                    ir_para(25, 16);
-                    limpar_linha();
-                    ir_para(33, 16);
+                    envia_email(&dados, mensagem_email);       // Envia um e-mail de boas-vindas.
+                    ir_para(33, 18);
                     printf("\033[1;32mUsuario Cadastrado.\033[0m");
 
+                    // Pergunta se o usuário deseja fazer login após o cadastro.
                     char quer_login;
-                    do
-                    {
-                        ir_para(33, 18);
+                    do {
+                        ir_para(33, 20);
                         printf("Deseja fazer login?");
-                        ir_para(30, 19);
+                        ir_para(30, 21);
                         printf("                                ");
-                        ir_para(30, 19);
+                        ir_para(30, 21);
                         printf("[1] SIM ou [2] NAO : ");
                         scanf("%c", &quer_login);
                         apaga_buffer();
-                        switch (quer_login)
-                        {
+                        switch (quer_login) {
                         case '1':
-                            login(&dados); // Se o usuario quiser login depois de cadastro, chama a funcao de login
+                            login(&dados); // Chama a função de login.
                             snprintf(mensagem_email, sizeof(mensagem_email), "Parabéns, %s! Você fez login em nosso Sistema.", dados.nome);
                             envia_email(&dados, mensagem_email);
                             break;
                         case '2':
-                            ir_para(32, 21);
+                            ir_para(32, 18);
                             printf("\033[1;31mSaindo do programa...\033[0m");
                             break;
                         default:
-                            ir_para(34, 21);
+                            ir_para(34, 18);
+                            limpar_linha();
+                            ir_para(33, 18);
                             printf("\033[1;31mDIGITO INVALIDO!\033[0m");
                             break;
                         }
                     } while (quer_login != '1' && quer_login != '2');
-
                     break;
-                case '2':
-                    login(&dados);
+
+                case '2': // Fazer Login.
+                    login(&dados); // Chama a função de login.
                     snprintf(mensagem_email, sizeof(mensagem_email), "Parabéns, %s! Você fez login em nosso Sistema.", dados.nome);
                     envia_email(&dados, mensagem_email);
                     break;
-                case '3':
-                    recuperar_senha(&dados);
+
+                case '3': // Recuperação de Senha.
+                    recuperar_senha(&dados); // Chama a função de recuperação.
                     snprintf(mensagem_email, sizeof(mensagem_email), "%s você alterou sua senha em nosso Sistema.", dados.nome);
                     envia_email(&dados, mensagem_email);
                     break;
-                case '4':
+
+                case '4': // Sair.
                     ir_para(34, 16);
                     printf("\033[1;31mSaindo do programa...\033[0m");
-                    exit(0);
+                    exit(0); // Encerra o programa.
                     break;
-                default:
+
+                default: // Opção inválida.
                     ir_para(34, 16);
                     printf("\033[1;31mDIGITO INVALIDO!\033[0m");
                     break;
                 }
             } while (menu_usuario != '1' && menu_usuario != '2' && menu_usuario != '3' && menu_usuario != '4');
-
             break;
 
-            char menu_adm;
-        case '2': // Administrador
-            // Opções do menu do administrador
-            do
-            {
+            char menu_adm; // Variável local para o submenu do administrador.
+        case '2': // Caso o usuário escolha "MENU ADMINISTRADOR".
+            // Loop do Menu do Administrador.
+            do {
+                // Desenha a interface do menu do administrador.
                 bordas();
                 ir_para(25, 2);
                 printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 218, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 191);
@@ -156,6 +165,8 @@ int main()
                 printf("%c        Menu Administrador       %c", 179, 179);
                 ir_para(25, 5);
                 printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 192, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 217);
+                
+                // Exibe as opções do submenu.
                 ir_para(21, 9);
                 printf("           1. CADASTRAR ADMINISTRADOR           ");
                 ir_para(21, 10);
@@ -164,6 +175,8 @@ int main()
                 printf("           3. RECUPERAR SENHA ADM          ");
                 ir_para(21, 12);
                 printf("           4. SAIR         ");
+
+                // Solicita a entrada do usuário.
                 ir_para(26, 13);
                 limpar_linha();
                 ir_para(26, 14);
@@ -175,61 +188,73 @@ int main()
                 scanf("%c", &menu_adm);
                 apaga_buffer();
 
-                switch (menu_adm)
-                {
-                case '1': // Cadastro adm
-                    inicializar_arquivo(dados.menu_principal);
+                // Switch para tratar a opção do submenu do administrador.
+                switch (menu_adm) {
+                case '1': // Cadastro de novo administrador.
+                    inicializar_arquivo(dados.menu_principal); // Garante que o arquivo 'adms_cadastrados.bin' exista.
                     cadastro(&dados);
-                    incluir_dados(&dados); // Preenche os dados
-                    ir_para(31, 15);
+                    incluir_dados(&dados);
+                    snprintf(mensagem_email, sizeof(mensagem_email), "Parabéns, %s! Você fez cadastro em nosso Sistema como adm.", dados.nome);
+                    envia_email(&dados, mensagem_email);
+                    ir_para(33, 18);
                     printf("\033[1;32mAdministrador Cadastrado.\033[0m\n");
 
+                    // Pergunta se o adm deseja fazer login após o cadastro.
                     char quer_login;
-                    do
-                    {
-                        ir_para(33, 17);
+                    do {
+                        ir_para(33, 20);
                         printf("Deseja fazer login?");
-                        ir_para(30, 18);
+                        ir_para(30, 21);
                         printf("                                ");
-                        ir_para(30, 18);
+                        ir_para(30, 21);
                         printf("[1] SIM ou [2] NAO : ");
                         scanf("%c", &quer_login);
                         apaga_buffer();
-                        switch (quer_login)
-                        {
-                        case '1':          // Login dentro de Cadastro de adm
-                            login(&dados); // Se o administrador quiser login depois de cadastro, chama a funcao de login
-                            adm_funcoes(&dados);
+                        switch (quer_login) {
+                        case '1':
+                            login(&dados); // Chama o login de adm.
+                            snprintf(mensagem_email, sizeof(mensagem_email), "Parabéns, %s! Você fez login em nosso Sistema como adm.", dados.nome);
+                            envia_email(&dados, mensagem_email);
+                            adm_funcoes(&dados); // Exibe o menu de funções do adm.
                             break;
-                        case '2': // Não quer fazer login agora
-                            ir_para(32, 20);
+                        case '2':
+                            ir_para(32, 18);
+                            limpar_linha();
+                            ir_para(32, 18);
                             printf("\033[1;31mSaindo do programa...\033[0m");
                             break;
                         default:
-                            ir_para(34, 20);
+                            ir_para(33, 18);
+                            limpar_linha();
+                            ir_para(34, 18);
                             printf("\033[1;31mDIGITO INVALIDO!\033[0m");
                             break;
                         }
                     } while (quer_login != '1' && quer_login != '2');
-
                     break;
 
-                case '2': // Login adm
+                case '2': // Login do Administrador.
                     login(&dados);
-                    adm_funcoes(&dados);
+                    snprintf(mensagem_email, sizeof(mensagem_email), "Parabéns, %s! Você fez login em nosso Sistema como adm.", dados.nome);
+                    envia_email(&dados, mensagem_email);
+                    adm_funcoes(&dados); // Após o login, mostra as funções de adm.
                     break;
 
-                case '3':
+                case '3': // Recuperação de Senha do Administrador.
                     recuperar_senha(&dados);
+                    snprintf(mensagem_email, sizeof(mensagem_email), "%s você alterou sua senha em nosso Sistema.", dados.nome);
+                    envia_email(&dados, mensagem_email);
                     break;
-                case '4':
+
+                case '4': // Sair.
                     ir_para(32, 16);
                     limpar_linha();
                     ir_para(32, 16);
                     printf("\033[1;31mSaindo do programa...\033[0m");
                     exit(0);
                     break;
-                default:
+
+                default: // Opção inválida.
                     ir_para(34, 16);
                     printf("\033[1;31mDIGITO INVALIDO!\033[0m");
                     break;
@@ -237,16 +262,18 @@ int main()
             } while (menu_adm != '1' && menu_adm != '2' && menu_adm != '3' && menu_adm != '4');
             break;
 
-        case '3': // Sair
-            ir_para(32, 15);
+        case '3': // Sair do programa principal.
+            ir_para(32, 16);
             printf("\033[1;31mSaindo do programa...\033[0m");
             break;
-        default:
-            ir_para(34, 15);
+
+        default: // Opção inválida no menu principal.
+            ir_para(34, 16);
             printf("\033[1;31mDIGITO INVALIDO!\033[0m");
             break;
         }
     } while (dados.menu_principal != '1' && dados.menu_principal != '2' && dados.menu_principal != '3');
 
+    // Retorno padrão da função main.
     return 0;
 }

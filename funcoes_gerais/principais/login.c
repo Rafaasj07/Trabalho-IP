@@ -3,16 +3,17 @@
 #include <stdlib.h>
 #include "prototipos.h"
 
-// Funcao login_usuario com o ponteiro da instancia dados.
-// Atribuindo como argumento da função, o endereco da instancia dados na main que contém: Nome, Senha, Pergunta e Resposta. Fazendo comparacoes e modificacoes nessa instancia.
-void login(Cadastro *dados)
-{
-    char tentaiva_nome[50];
+// Função que realiza o login do usuário ou administrador.
+// Recebe um ponteiro para a struct 'dados' para carregar as informações do usuário logado.
+void login(Cadastro *dados) {
+    char tentativa_nome[37];
     int nome_existe;
-    do // Repete ate o nome do cadastro ser igual ao nome do login
-    {
+
+    // Loop principal de login, repete até que um usuário existente seja inserido.
+    do {
         limpar();
         bordas();
+        // Desenha a interface de login.
         ir_para(25, 2);
         printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 218, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 191);
         ir_para(25, 3);
@@ -23,90 +24,81 @@ void login(Cadastro *dados)
         printf("%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c%c", 192, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 196, 217);
         ir_para(24, 9);
 
+        // Pede o nome de usuário.
         ir_para(25, 10);
         printf("Nome: ");
-        fgets(tentaiva_nome, 50, stdin);
-        tentaiva_nome[strcspn(tentaiva_nome, "\n")] = '\0';
+        fgets(tentativa_nome, sizeof(tentativa_nome), stdin);
+        tentativa_nome[strcspn(tentativa_nome, "\n")] = '\0';
 
-        nome_existe = verificar_nome(dados, tentaiva_nome); // Caso o nome exista no arquivo, retorna 1. Senão retorna 0.
+        // Verifica se o nome existe no arquivo binário.
+        // Se existir, os dados do usuário são carregados na struct 'dados'.
+        nome_existe = verificar_nome(dados, tentativa_nome);
 
-        if (nome_existe == 1)
-        {
-            char tentaiva_senha[50];
+        if (nome_existe == 1) { // Se o nome foi encontrado.
+            char tentativa_senha[22];
             int aux_tentativa_senha = 0;
 
-            do // Repeticao ate a senha ser correta
-            {
+            // Loop para a senha, repete até a senha estar correta.
+            do {
                 ir_para(6, 11);
                 limpar_linha();
                 ir_para(25, 11);
                 printf("Senha: ");
-                fgets(tentaiva_senha, 50, stdin);
-                tentaiva_senha[strcspn(tentaiva_senha, "\n")] = '\0';
-                cifrar_cesar(tentaiva_senha, 6);
-                
-                if (strcmp(dados->senha, tentaiva_senha) == 0)
-                {
+                fgets(tentativa_senha, sizeof(tentativa_senha), stdin);
+                tentativa_senha[strcspn(tentativa_senha, "\n")] = '\0';
+
+                // Compara a senha digitada com a senha armazenada (carregada pelo verificar_nome).
+                if (strcmp(dados->senha, tentativa_senha) == 0) {
                     ir_para(25, 15);
                     printf("                                               ");
                     ir_para(29, 16);
                     printf("\033[1;32mAcesso ao programa liberado!\033[0m");
-                    break;
-                }
-                else
-                {
+                    break; // Senha correta, sai do loop da senha.
+                } else {
+                    // Se a senha estiver incorreta.
                     ir_para(25, 15);
                     printf("\033[1;31mSenha Incorreta! Tente novamente.\033[0m");
-                    aux_tentativa_senha++;
+                    aux_tentativa_senha++; // Incrementa o contador de tentativas.
 
-                    // A cada 5 tentativas erradas, pergunta ao usuario se quer recuperar senha
-                    if (aux_tentativa_senha % 3 == 0)
-                    {
+                    // A cada 3 tentativas erradas, oferece a opção de recuperação de senha.
+                    if (aux_tentativa_senha % 3 == 0) {
                         char deseja_recuperar;
-                        do
-                        {
+                        do {
                             ir_para(25, 15);
                             printf("     Deseja recuperar a senha?     ");
                             ir_para(22, 16);
                             printf("[1] SIM [2] CONTINUAR TENTANDO [3] SAIR : ");
                             scanf("%c", &deseja_recuperar);
                             apaga_buffer();
-                            switch (deseja_recuperar)
-                            {
-                            case '1':
+                            switch (deseja_recuperar) {
+                            case '1': // Inicia a recuperação de senha.
                                 limpar();
                                 recuperar_senha(dados);
                                 char mensagem_email[200];
                                 snprintf(mensagem_email, sizeof(mensagem_email), "%s você alterou sua senha em nosso Sistema.", dados->nome);
                                 envia_email(dados, mensagem_email);
-                                exit(0);
-                            case '2':
+                                exit(0); // Encerra o programa após a recuperação.
+                            case '2': // Volta para a tentativa de senha.
                                 ir_para(25, 15);
                                 limpar_linha();
                                 ir_para(22, 16);
                                 limpar_linha();
                                 bordas();
-                                break; // Fecha o laço
-                            case '3':
+                                break;
+                            case '3': // Sai do programa.
                                 ir_para(29, 19);
                                 printf("\033[1;31mTentativa de login mal sucedida.\033[0m");
                                 exit(0);
-                            default:
+                            default: // Opção inválida.
                                 break;
                             }
                         } while (deseja_recuperar != '1' && deseja_recuperar != '2' && deseja_recuperar != '3');
                     }
                 }
-
-            } while (strcmp(dados->senha, tentaiva_senha) != 0);
-        }
-
-        else
-        {
-            // Se o usuario cadastrado for diferente do login, oferece opcao de tentar de novo ou sair
+            } while (strcmp(dados->senha, tentativa_senha) != 0);
+        } else { // Se o nome de usuário não foi encontrado.
             char deseja_repetir_nome;
-            do
-            {
+            do {
                 ir_para(35, 12);
                 printf("\033[1;31mUsuario nao existe\033[0m");
                 ir_para(26, 14);
@@ -115,15 +107,14 @@ void login(Cadastro *dados)
                 printf("[1] SIM  ou  [2] NAO  : ");
                 scanf("%c", &deseja_repetir_nome);
                 apaga_buffer();
-                switch (deseja_repetir_nome)
-                {
+                switch (deseja_repetir_nome) {
                 case '1':
-                    limpar();
-                    continue;
+                    limpar(); // Limpa a tela para tentar de novo.
+                    continue; // Pula para a próxima iteração do loop 'do-while' principal.
                 case '2':
                     ir_para(29, 19);
                     printf("\033[1;31mTentativa de Login mal sucedida.\033[0m");
-                    exit(0);
+                    exit(0); // Sai do programa.
                 default:
                     ir_para(36, 17);
                     printf("\033[1;31mDigito Invalido.\033[0m");
@@ -131,5 +122,5 @@ void login(Cadastro *dados)
                 }
             } while (deseja_repetir_nome != '1' && deseja_repetir_nome != '2');
         }
-    } while (nome_existe == 0);
+    } while (nome_existe == 0); // Repete o processo de login se o nome não existir.
 }
